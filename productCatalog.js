@@ -4,6 +4,45 @@ api.searchAllProducts().then((value) => {
     updateTable('allTable', value);
 });
 
+document.getElementById('inputButton').addEventListener('click', () => {
+    processSearch(document.getElementById('input').value);
+});
+
+function updateExaminedText(product) {
+    let outputString = "Product Id: " + product.id;
+    outputString += "<br> Price: " + product.price;
+    outputString += "<br> Type: " + product.type;
+    document.getElementById('productText').innerHTML = outputString;
+}
+
+function processSearch(searchId) {
+    api.searchProductById(searchId).then(val => {
+        return Promise.all([api.searchProductsByPrice(val.price,50),api.searchProductsByType(val.type), val]);
+    }).then(val => {
+        const similarArray = getIntersection(val[0],val[1],val[2].id);
+        updateExaminedText(val[2]);
+        updateTable('similarTable',similarArray);
+    }).catch(val => {
+        alert(val);
+    });
+}
+
+function getIntersection(arrA,arrB,searchedId) {
+    const samePrice = arrA;
+    const sameType = arrB;
+    const similarArray = [];
+
+    samePrice.forEach(obj1 => {
+        sameType.forEach(obj2 => {
+            if (obj1.id == obj2.id && obj1.id != searchedId) {
+                similarArray.push(obj1);
+            }
+        });
+    });
+
+    return similarArray;
+}
+
 function createTableHeader(tableId) {
     const tableHeaderRow = document.createElement('TR');
     const th1 = document.createElement('TH');
@@ -40,8 +79,8 @@ function updateTable(tableId, productArray) {
         const td3 = document.createElement('TD');
         const td4 = document.createElement('button');
 
-        td4.addEventListener('click', () => {
-
+        td4.addEventListener('click', (event) => {
+            processSearch(event.currentTarget.parentNode.firstChild.innerHTML);
         });
 
         td1.appendChild(document.createTextNode(productArray[i].id));

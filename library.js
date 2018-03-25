@@ -31,7 +31,7 @@
             return promise;
         }
 
-        function searchProductByType(type) {
+        function searchProductsByType(type) {
             var promise = new Promise((resolve, reject) => {
                 let i = 0;
                 let typeArray = [];
@@ -54,7 +54,7 @@
             return promise;
         }
 
-        function searchProductByPrice(price, difference) {
+        function searchProductsByPrice(price, difference) {
             var promise = new Promise((resolve, reject) => {
                 let i = 0;
                 let priceArray = [];
@@ -78,14 +78,14 @@
 
         return {
             searchProductById: searchProductById,
-            searchProductByPrice: searchProductByPrice,
-            searchProductByType: searchProductByType,
+            searchProductsByPrice: searchProductsByPrice,
+            searchProductsByType: searchProductsByType,
             searchAllProducts: searchAllProducts
         }
 
         // function definitions here
         function createRandomProduct() {
-            var typeArray = ['Electronic','Book','Clothing','Food'];
+            var typeArray = ['Electronics','Book','Clothing','Food'];
             var price = (Math.random() * 500).toFixed(2);
             var type = typeArray[Math.floor(Math.random() * 4)];
 
