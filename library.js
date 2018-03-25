@@ -15,7 +15,7 @@
             return promise;
         }
 
-        function searchProductsById(id) {
+        function searchProductById(id) {
             var promise = new Promise((resolve, reject) => {
                 let i = 0;
                 setTimeout(() => {
@@ -54,7 +54,7 @@
             return promise;
         }
 
-        function searchProductsByPrice(price, difference) {
+        function searchProductByPrice(price, difference) {
             var promise = new Promise((resolve, reject) => {
                 let i = 0;
                 let priceArray = [];
