@@ -8,12 +8,13 @@ document.getElementById('inputButton').addEventListener('click', () => {
     processSearch(document.getElementById('input').value);
 });
 
-function updateExaminedText(product) {
-    let outputString = "Product Id: " + product.id;
-    outputString += "<br> Price: " + product.price;
-    outputString += "<br> Type: " + product.type;
-    document.getElementById('productText').innerHTML = outputString;
-}
+document.getElementById('typeButton').addEventListener('click', () => {
+    processTypeSearch(document.getElementById('typeInput').value);
+});
+
+document.getElementById('priceButton').addEventListener('click', () => {
+    processPriceSearch(document.getElementById('priceInput').value);
+});
 
 function processSearch(searchId) {
     api.searchProductById(searchId).then(val => {
@@ -25,6 +26,29 @@ function processSearch(searchId) {
     }).catch(val => {
         alert(val);
     });
+}
+
+function processTypeSearch(type) {
+    api.searchProductsByType(type).then(products => {
+        updateTable('similarTable', products);
+    }).catch(err => {
+        alert(err);
+    });
+}
+
+function processPriceSearch(price) {
+    api.searchProductsByPrice(price, 50).then(products => {
+        updateTable('similarTable', products);
+    }).catch(err => {
+        alert(err);
+    });
+}
+
+function updateExaminedText(product) {
+    let outputString = "Product Id: " + product.id;
+    outputString += "<br> Price: " + product.price;
+    outputString += "<br> Type: " + product.type;
+    document.getElementById('productText').innerHTML = outputString;
 }
 
 function getIntersection(arrA,arrB,searchedId) {
